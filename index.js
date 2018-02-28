@@ -21,7 +21,7 @@ client.on('message', (type, data) => {
     return
   }
   console.log(data.text)
-  const text = striptags(data.text).replace(`@${process.env.GLIP_NAME} `, '').trim()
+  const text = striptags(data.text).replace(`@${process.env.GLIP_NAME}`, ' ').trim().replace(/\s+/g, ' ')
   console.log(text)
   if (text === 'ping') {
     client.post(data.group_id, 'pong')
