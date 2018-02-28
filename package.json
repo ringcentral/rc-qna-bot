@@ -1,0 +1,14 @@
+{
+  "name": "rc-qna-bot",
+  "version": "0.1.0",
+  "description": "RingCentral Q & A bot",
+  "license": "MIT",
+  "scripts": {
+    "upgrade": "yarn-upgrade-all",
+    "test": "node index.js"
+  },
+  "devDependencies": {
+    "standard": "^11.0.0",
+    "yarn-upgrade-all": "^0.3.0"
+  }
+}
