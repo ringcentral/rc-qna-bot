@@ -10,5 +10,9 @@
   "devDependencies": {
     "standard": "^11.0.0",
     "yarn-upgrade-all": "^0.3.0"
+  },
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "ringcentral-js-concise": "^0.3.6"
   }
 }
