@@ -43,7 +43,7 @@ client.on('message', (type, data) => {
   }).then(r => {
     console.log(JSON.stringify(r.data, null, 2))
     const answer = r.data.answers[0]
-    if (answer.score < 50.0) {
+    if (answer.score < 20.0) {
       client.post(data.group_id, 'This question is not in my knowledge base')
       return
     }
