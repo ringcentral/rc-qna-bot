@@ -1,5 +1,6 @@
 const dotenv = require('dotenv')
 const striptags = require('striptags')
+const axios = require('axios')
 
 dotenv.config()
 
@@ -20,11 +21,30 @@ client.on('message', (type, data) => {
   if (data.text.indexOf(`>@${process.env.GLIP_NAME}</a>`) === -1) {
     return
   }
-  console.log(data.text)
   const text = striptags(data.text).replace(`@${process.env.GLIP_NAME}`, ' ').trim().replace(/\s+/g, ' ')
-  console.log(text)
   if (text === 'ping') {
     client.post(data.group_id, 'pong')
+    return
   }
+  axios({
+    method: 'post',
+    url: process.env.QNA_MARKER_URL,
+    headers: {
+      'Content-Type': 'application/json',
+      'Ocp-Apim-Subscription-Key': process.env.QNA_MARKER_KEY
+    },
+    data: {
+      question: text
+    }
+  }).then(r => {
+    const answer = r.data.answers[0]
+    if (answer.score < 50.0) {
+      client.post(data.group_id, 'This question is not in my knowledge base')
+      return
+    }
+    client.post(data.group_id, answer.answer)
+  }).catch(error => {
+    console.log(error)
+  })
 })
 client.start()
