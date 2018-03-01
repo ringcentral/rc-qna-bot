@@ -1,8 +1,11 @@
 const dotenv = require('dotenv')
+dotenv.config()
+
 const striptags = require('striptags')
 const axios = require('axios')
+const AllHtmlEntities = require('html-entities').AllHtmlEntities
 
-dotenv.config()
+const entities = new AllHtmlEntities()
 
 const GlipSocket = require('glip.socket.io')
 const client = new GlipSocket({
@@ -44,7 +47,7 @@ client.on('message', (type, data) => {
       client.post(data.group_id, 'This question is not in my knowledge base')
       return
     }
-    client.post(data.group_id, answer.answer)
+    client.post(data.group_id, entities.decode(answer.answer))
   }).catch(error => {
     console.log(error)
   })

@@ -15,6 +15,7 @@
     "axios": "^0.18.0",
     "dotenv": "^5.0.1",
     "glip.socket.io": "tylerlong/glip.socket.io",
+    "html-entities": "^1.2.1",
     "striptags": "^3.1.1"
   }
 }
