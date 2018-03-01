@@ -26,6 +26,7 @@ client.on('message', (type, data) => {
     client.post(data.group_id, 'pong')
     return
   }
+  console.log(text)
   axios({
     method: 'post',
     url: process.env.QNA_MARKER_URL,
@@ -37,6 +38,7 @@ client.on('message', (type, data) => {
       question: text
     }
   }).then(r => {
+    console.log(JSON.stringify(r.data, null, 2))
     const answer = r.data.answers[0]
     if (answer.score < 50.0) {
       client.post(data.group_id, 'This question is not in my knowledge base')
