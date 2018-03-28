@@ -47,7 +47,11 @@ client.on('message', (type, data) => {
       client.post(data.group_id, 'This question is not in my knowledge base')
       return
     }
-    client.post(data.group_id, entities.decode(answer.answer))
+    client.post(data.group_id, `I find the following Q & A pair from my knowledge base:
+
+    Q: ${answer.questions[0]}
+
+    A: ${entities.decode(answer.answer)}`)
   }).catch(error => {
     console.log(error)
   })
