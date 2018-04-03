@@ -16,6 +16,7 @@
     "dotenv": "^5.0.1",
     "glip.socket.io": "tylerlong/glip.socket.io",
     "html-entities": "^1.2.1",
+    "ramda": "^0.25.0",
     "striptags": "^3.1.1"
   }
 }

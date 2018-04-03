@@ -4,6 +4,7 @@ dotenv.config()
 const striptags = require('striptags')
 const axios = require('axios')
 const AllHtmlEntities = require('html-entities').AllHtmlEntities
+const R = require('ramda')
 
 const entities = new AllHtmlEntities()
 
@@ -41,20 +42,26 @@ client.on('message', (type, data) => {
       'Ocp-Apim-Subscription-Key': process.env.QNA_MARKER_KEY
     },
     data: {
-      question: text
+      question: text,
+      top: 2
     }
   }).then(r => {
     console.log(JSON.stringify(r.data, null, 2))
-    const answer = r.data.answers[0]
-    if (answer.score < 20.0) {
+
+    const answers = R.filter(a => a.score > 20, r.data.answers)
+    if (answers.length === 0) {
       client.post(data.group_id, 'This question is not in my knowledge base')
       return
     }
-    client.post(data.group_id, `I find the following Q & A pair from my knowledge base:
 
-    Q: ${answer.questions[0]}
+    let answer = 'I find the following Q & A pair(s) from my knowledge base:'
+    for (let i = 0; i < answers.length; i++) {
+      answer += `
 
-    A: ${entities.decode(answer.answer)}`)
+      **Q: ${answers[i].questions[0]}**
+      **A:** ${entities.decode(answers[i].answer)}`
+    }
+    client.post(data.group_id, answer)
   }).catch(error => {
     console.log(error)
   })
