@@ -18,6 +18,9 @@ client.on('message', (type, data) => {
   if (type !== client.type_ids.TYPE_ID_POST) {
     return
   }
+  if (data.text === undefined) {
+    return
+  }
   if (data.text.indexOf("<a class='at_mention_compose'") === -1) {
     return
   }
