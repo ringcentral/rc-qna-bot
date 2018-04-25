@@ -8,7 +8,7 @@
     "test": "node index.js"
   },
   "devDependencies": {
-    "standard": "^11.0.0",
+    "standard": "^11.0.1",
     "yarn-upgrade-all": "^0.3.0"
   },
   "dependencies": {
