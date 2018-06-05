@@ -14,4 +14,6 @@ rc.post('/restapi/v1.0/subscription', {
     address: process.env.RINGCENTRAL_WEBHOOK_URI
   },
   expiresIn: 473040000
+}).catch(e => {
+  console.log(e)
 })

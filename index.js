@@ -10,28 +10,49 @@ const entities = new AllHtmlEntities()
 
 const RingCentral = require('ringcentral-js-concise')
 const rc = new RingCentral('', '', process.env.RINGCENTRAL_SERVER)
-rc.token(JSON.parse(process.env.RINGCENTRAL_TOKEN))
+const token = JSON.parse(process.env.RINGCENTRAL_TOKEN)
+rc.token(token)
 
-const PubNub = require('ringcentral-js-concise/src/pubnub')
-const pubnub = new PubNub(rc, ['/restapi/v1.0/glip/posts'], message => {
+const handleMessage = (event, context, callback) => {
+  if (event.headers['Verification-Token'] !== process.env.RINGCENTRAL_VERIFICATION_TOKEN) {
+    callback(null, { statusCode: 404 })
+    return
+  }
+  callback(null, { statusCode: 200, body: '', headers: { 'Validation-Token': event.headers['Validation-Token'] } })
+  if (event.body === null) {
+    return
+  }
+  const message = JSON.parse(event.body).body
+  if (R.isNil(message)) {
+    return
+  }
+  if (message.creatorId === token.owner_id) {
+    return
+  }
+  if (R.isNil(message.text) || R.isEmpty(message.text)) {
+    return
+  }
   console.log(message)
-})
-pubnub.subscribe()
+  // rc.post('/restapi/v1.0/glip/posts', {
+  //   groupId: message.groupId,
+  //   text: JSON.stringify(message, null, 2),
+  //   attachments: undefined
+  // })
+}
 
-// const GlipSocket = require('glip.socket.io')
-// const client = new GlipSocket({
-//   host: process.env.GLIP_HOST || 'app.glip.com',
-//   port: process.env.GLIP_PORT || 443,
-//   user: process.env.GLIP_EMAIL,
-//   password: process.env.GLIP_PASSWORD
-// })
-// client.on('message', (type, data) => {
-//   if (type !== client.type_ids.TYPE_ID_POST) {
-//     return
-//   }
-//   if (data.text === undefined) {
-//     return
-//   }
+if (process.env.RINGCENTRAL_SERVER.indexOf('devtest') !== -1) { // dev
+  const PubNub = require('ringcentral-js-concise/src/pubnub')
+  const pubnub = new PubNub(rc, ['/restapi/v1.0/glip/posts'], message => {
+    handleMessage({
+      headers: { 'Verification-Token': process.env.RINGCENTRAL_VERIFICATION_TOKEN },
+      body: JSON.stringify(message)
+    }, null, () => {})
+  })
+  pubnub.subscribe()
+}
+
+module.exports = { handleMessage }
+
 //   if (data.text.indexOf("<a class='at_mention_compose'") === -1) {
 //     return
 //   }
@@ -46,7 +67,7 @@ pubnub.subscribe()
 //   console.log(text)
 //   axios({
 //     method: 'post',
-//     url: process.env.QNA_MARKER_URL,
+//     url: process.env.QNA_MARKER_URI,
 //     headers: {
 //       'Content-Type': 'application/json',
 //       'Ocp-Apim-Subscription-Key': process.env.QNA_MARKER_KEY
