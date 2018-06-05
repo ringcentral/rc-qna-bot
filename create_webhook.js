@@ -11,7 +11,8 @@ rc.post('/restapi/v1.0/subscription', {
   ],
   deliveryMode: {
     transportType: 'WebHook',
-    address: process.env.RINGCENTRAL_WEBHOOK_URI
+    address: process.env.RINGCENTRAL_WEBHOOK_URI,
+    verificationToken: process.env.RINGCENTRAL_VERIFICATION_TOKEN
   },
   expiresIn: 473040000
 }).catch(e => {
