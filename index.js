@@ -49,6 +49,11 @@ if (process.env.RINGCENTRAL_SERVER.indexOf('devtest') !== -1) { // dev
     }, null, () => {})
   })
   pubnub.subscribe()
+  process.on('SIGINT', function () {
+    rc.delete(`/restapi/v1.0/subscription/${pubnub.subscription().id}`).then(() => {
+      process.exit()
+    })
+  })
 }
 
 module.exports = { handleMessage }
