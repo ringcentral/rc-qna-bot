@@ -16,7 +16,6 @@
     "dotenv": "^6.0.0",
     "html-entities": "^1.2.1",
     "ramda": "^0.25.0",
-    "ringcentral-js-concise": "^0.4.0",
-    "striptags": "^3.1.1"
+    "ringcentral-js-concise": "^0.4.0"
   }
 }
