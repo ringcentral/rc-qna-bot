@@ -65,7 +65,10 @@ const handleMessage = (event, context, callback) => {
 
     const answers = R.filter(a => a.score > 20, r.data.answers)
     if (answers.length === 0) {
-      postMessage(message.groupId, 'This question is not in my knowledge base')
+      postMessage(message.groupId, `This question is not in my knowledge base.
+
+If you know the answer, would you please contribute it to https://github.com/ringcentral/ringcentral-faq ?`
+      )
       return
     }
 
