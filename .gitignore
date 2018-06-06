@@ -5,5 +5,6 @@ yarn-error.log
 .env
 .env.sandbox
 .env.prod
+env.yml
 
 handler.js
