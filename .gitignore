@@ -1,4 +1,9 @@
 node_modules/
+.DS_Store
+yarn-error.log
+
 .env
 .env.sandbox
 .env.prod
+
+handler.js

@@ -1,21 +1,39 @@
 {
   "name": "rc-qna-bot",
   "version": "0.2.0",
-  "description": "RingCentral Q & A bot",
+  "description": "RingCentral Q & A chatbot for developers",
+  "private": true,
   "license": "MIT",
   "scripts": {
     "upgrade": "yarn-upgrade-all",
-    "test": "node index.js"
-  },
-  "devDependencies": {
-    "standard": "^11.0.1",
-    "yarn-upgrade-all": "^0.3.0"
+    "test": "node -r babel-register messages/index.js",
+    "build": "webpack --progress --colors",
+    "build:watch": "yarn build --watch",
+    "release": "yarn build -p",
+    "info": "cd messages && serverless info",
+    "log": "cd messages && serverless -f handleMessage logs",
+    "log:stream": "yarn log -t",
+    "remove": "cd messages && serverless remove",
+    "deploy:full": "yarn build && cd messages && serverless deploy",
+    "deploy:full:prod": "yarn release && cd messages && serverless deploy --stage prod",
+    "deploy": "yarn deploy:full function -f handleMessage"
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "dotenv": "^6.0.0",
     "html-entities": "^1.2.1",
     "ramda": "^0.25.0",
     "ringcentral-js-concise": "^0.4.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "dotenv": "^6.0.0",
+    "standard": "^11.0.1",
+    "webpack": "^4.11.0",
+    "webpack-cli": "^3.0.2",
+    "yarn-upgrade-all": "^0.3.0"
   }
 }

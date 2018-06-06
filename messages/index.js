@@ -1,13 +1,13 @@
-const dotenv = require('dotenv')
+import dotenv from 'dotenv'
+import axios from 'axios'
+import * as R from 'ramda'
+import RingCentral from 'ringcentral-js-concise'
+import htmlEntities from 'html-entities'
+
 dotenv.config()
 
-const axios = require('axios')
-const AllHtmlEntities = require('html-entities').AllHtmlEntities
-const R = require('ramda')
+const entities = new htmlEntities.AllHtmlEntities()
 
-const entities = new AllHtmlEntities()
-
-const RingCentral = require('ringcentral-js-concise')
 const rc = new RingCentral('', '', process.env.RINGCENTRAL_SERVER)
 const token = JSON.parse(process.env.RINGCENTRAL_TOKEN)
 rc.token(token)
