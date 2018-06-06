@@ -10,13 +10,12 @@
     "build": "webpack --progress --colors",
     "build:watch": "yarn build --watch",
     "release": "yarn build -p",
-    "info": "cd messages && serverless info",
-    "log": "cd messages && serverless -f handleMessage logs",
+    "info": "cd messages && serverless info --stage prod",
+    "log": "cd messages && serverless -f handleMessage logs --stage prod",
     "log:stream": "yarn log -t",
-    "remove": "cd messages && serverless remove",
-    "deploy:full": "yarn build && cd messages && serverless deploy",
-    "deploy:full:prod": "yarn release && cd messages && serverless deploy --stage prod",
-    "deploy": "yarn deploy:full function -f handleMessage"
+    "remove": "cd messages && serverless remove --stage prod",
+    "deploy:full": "yarn release && cd messages && serverless deploy --stage prod",
+    "deploy": "yarn release && cd messages && serverless deploy --stage prod function -f handleMessage"
   },
   "dependencies": {
     "axios": "^0.18.0",
